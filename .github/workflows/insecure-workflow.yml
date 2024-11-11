@@ -11,6 +11,9 @@ jobs:
         with:
           ref: ${{ github.event.pull_request.head.sha }}
 
+      - name: Make deploy_script.sh executable
+        run: chmod +x ./deploy_script.sh    
+
       # Step 2: Run deployment with a secret
       - name: Deploy with Secret Key
         run: ./deploy_script.sh
