@@ -8,6 +8,8 @@ jobs:
       # Step 1: Check out PR code
       - name: Check out code
         uses: actions/checkout@v3
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
 
       - name: Make deploy_script.sh executable
         run: chmod +x ./deploy_script.sh    
