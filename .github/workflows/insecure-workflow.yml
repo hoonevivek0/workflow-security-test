@@ -1,27 +1,19 @@
-# INSECURE. Provided as an example only.
 name: Insecure Workflow Test
-on:
-  pull_request_target
+on: pull_request_target
 
 jobs:
-  build:
-    name: Build and test
+  build-and-deploy:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-        with:
-          ref: ${{ github.event.pull_request.head.sha }}
+      # Step 1: Check out PR code from fork with explicit SHA
+      - name: Check out PR code
+        uses: actions/checkout@v3
 
-      - uses: actions/setup-node@v1
-      - run: |
-          npm install
-          npm build
+      - name: Make deploy_script.sh executable
+        run: chmod +x ./deploy_script.sh    
 
-      - uses: completely/fakeaction@v2
-        with:
-          arg1: ${{ secrets.supersecret }}
-
-      - uses: fakerepo/comment-on-pr@v1
-        with:
-          message: |
-            Thank you!
+      # Step 2: Run deployment with a secret
+      - name: Deploy with Secret Key
+        run: ./deploy_script.sh
+        env:
+          SECRET_KEY: ${{ secrets.SECRET_KEY }}
