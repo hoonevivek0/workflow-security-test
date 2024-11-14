@@ -1,21 +1,27 @@
+# INSECURE. Provided as an example only.
 name: Insecure Workflow Test
-on: pull_request_target
+on:
+  pull_request_target
 
 jobs:
-  build-and-deploy:
+  build:
+    name: Build and test
     runs-on: ubuntu-latest
     steps:
-      # Step 1: Check out PR code
-      - name: Check out code
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v2
         with:
           ref: ${{ github.event.pull_request.head.sha }}
 
-      - name: Make deploy_script.sh executable
-        run: chmod +x ./deploy_script.sh    
+      - uses: actions/setup-node@v1
+      - run: |
+          npm install
+          npm build
 
-      # Step 2: Run deployment with a secret
-      - name: Deploy with Secret Key
-        run: ./deploy_script.sh
-        env:
-          SECRET_KEY: ${{ secrets.SECRET_KEY }}
+      - uses: completely/fakeaction@v2
+        with:
+          arg1: ${{ secrets.supersecret }}
+
+      - uses: fakerepo/comment-on-pr@v1
+        with:
+          message: |
+            Thank you!
